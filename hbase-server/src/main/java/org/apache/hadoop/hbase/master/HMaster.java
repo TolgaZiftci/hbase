@@ -3155,6 +3155,14 @@ public class HMaster extends HRegionServer implements MasterServices {
     return 0;
   }
 
+  public long getOldestProcedureAge() {
+    Optional<Procedure<MasterProcedureEnv>> oldestProc =
+      procedureExecutor.getProcedures().stream().filter(proc -> !proc.isFinished())
+        .min(Comparator.comparingLong(Procedure::getSubmittedTime));
+    return oldestProc.map(proc -> EnvironmentEdgeManager.currentTime() - proc.getSubmittedTime())
+      .orElse(0L);
+  }
+
   public ProcedureStore getProcedureStore() {
     return procedureStore;
   }

@@ -176,6 +176,11 @@ public class MetricsMasterWrapperImpl implements MetricsMasterWrapper {
   }
 
   @Override
+  public long getOldestProcedureAge() {
+    return master.getOldestProcedureAge();
+  }
+
+  @Override
   public Map<String, Entry<Long, Long>> getTableSpaceUtilization() {
     if (master == null) {
       return Collections.emptyMap();
